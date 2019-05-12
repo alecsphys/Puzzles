@@ -10,5 +10,6 @@ Just a list of web-pages where you can find nice puzzles to be solved.
 * https://www.geeksforgeeks.org/
 * https://leetcode.com/
 * https://www.cs.cmu.edu/puzzle/
+* http://www.research.ibm.com/haifa/ponderthis/
 
 ## Puzzle list
