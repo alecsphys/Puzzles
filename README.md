@@ -14,3 +14,5 @@ Just a list of web-pages where you can find nice puzzles to be solved.
 * http://www.rudimathematici.com/
 
 ## Puzzle list
+
+
