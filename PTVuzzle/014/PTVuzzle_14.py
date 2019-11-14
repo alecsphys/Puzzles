@@ -5,20 +5,22 @@ import time
 def main():
     puzzleQuestion(14)
 
-    maxGridSize = 10
+    maxGridSize = 4
     timingList1 = []
     timingList2 = []
 
-    for g in range(9, maxGridSize + 1):
+    for g in range(4, maxGridSize + 1):
         t0 = time.process_time()
         puzzle14solution1(g, printPaths=False)
         t1 = time.process_time()
         timingList1.append((t1-t0))
     print("Process time [sec] = ", timingList1, sum(timingList1))
 
-    for g in range(9, maxGridSize + 1):
+    #puzzle14solution2(4, printPaths=False)
+
+    for g in range(4, maxGridSize + 1):
         t0 = time.process_time()
-        #puzzle14solution2(g, printPaths=False)
+        puzzle14solution2(g, printPaths=False)
         t1 = time.process_time()
         timingList2.append((t1-t0))
     print("Process time [sec] = ", timingList2, sum(timingList2))
@@ -96,6 +98,55 @@ class Path:
                 print(self.decodeSequence())
         return [pathFinished, newPath]
 
+
+def puzzle14solution2(gridSize, printPaths=True):
+    print(catalanTriangle(gridSize))
+    CT = catalanTriangle(gridSize)
+    path = generatePath(CT, gridSize, index=4)
+    print(path)
+    for index in range(CT[gridSize-1][gridSize-1]):
+        generateNextPath(path)
+        print(path)
+
+def catalanTriangle(grisSize):
+    CT = []
+    row = [1]
+    CT.append(row)
+    row = [1, 2]
+    CT.append(row)
+    row = [1, 3, 5]
+    CT.append(row)
+    row = [1, 4, 9, 14]
+    CT.append(row)
+
+    return CT
+
+def generatePath(catalanTriangle, gridSize, index):
+    path = [0] * gridSize
+    N = gridSize - 1
+    p = 0
+    s = 0
+    path[p] = s
+    p += 1
+    while p <= N:
+        while catalanTriangle[N-s][N-p] < index:
+            index = index - catalanTriangle[N-s][N-p]
+            s += 1
+        path[p] = s
+        p += 1
+    return path
+
+def generateNextPath(path):
+    index = len(path) - 1
+    while index > 0:
+        if path[index] < index:
+            path[index] += 1
+            current = index + 1
+            while current < len(path):
+                path[current] = path[index]
+                current += 1
+        return True
+    return False
 
 if __name__ == "__main__":
     main()
