@@ -108,7 +108,7 @@ def puzzle14solution2(gridSize, printPaths=True):
         generateNextPath(path)
         print(path)
 
-def catalanTriangle(grisSize):
+def catalanTriangle(gridSize):
     CT = []
     row = [1]
     CT.append(row)
@@ -119,6 +119,17 @@ def catalanTriangle(grisSize):
     row = [1, 4, 9, 14]
     CT.append(row)
 
+    CT = []
+    row = [1]
+    CT.append(row)
+    for i in range(1, gridSize):
+        row = [1]
+        for j in range(1, i+1):
+            if i == j:
+                row.append(CT[i][i-1] + CT[i-1][i-1])
+            else:
+                row.append(CT[i][j-1] + CT[i-1][j])
+        CT.append(row)
     return CT
 
 def generatePath(catalanTriangle, gridSize, index):
@@ -145,7 +156,8 @@ def generateNextPath(path):
             while current < len(path):
                 path[current] = path[index]
                 current += 1
-        return True
+            return True
+        index -= 1
     return False
 
 if __name__ == "__main__":
