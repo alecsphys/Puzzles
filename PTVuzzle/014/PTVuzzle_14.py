@@ -5,7 +5,7 @@ import time
 def main():
     puzzleQuestion(14)
 
-    maxGridSize = 4
+    maxGridSize = 10
     timingList1 = []
     timingList2 = []
 
@@ -15,8 +15,6 @@ def main():
         t1 = time.process_time()
         timingList1.append((t1-t0))
     print("Process time [sec] = ", timingList1, sum(timingList1))
-
-    #puzzle14solution2(4, printPaths=False)
 
     for g in range(4, maxGridSize + 1):
         t0 = time.process_time()
@@ -100,25 +98,20 @@ class Path:
 
 
 def puzzle14solution2(gridSize, printPaths=True):
-    print(catalanTriangle(gridSize))
-    CT = catalanTriangle(gridSize)
-    path = generatePath(CT, gridSize, index=4)
-    print(path)
-    for index in range(CT[gridSize-1][gridSize-1]):
-        generateNextPath(path)
+    print("Grid Size = ", gridSize)
+
+    CT = createCatalanTriangle(gridSize)
+    path = generatePath(CT, gridSize, index=1)
+    if printPaths:
         print(path)
+    for i in range(CT[gridSize-1][gridSize-1] - 1):
+        generateNextPath(path)
+        if printPaths:
+            print(path)
+    print("Total number of paths = ", CT[gridSize-1][gridSize-1])
 
-def catalanTriangle(gridSize):
-    CT = []
-    row = [1]
-    CT.append(row)
-    row = [1, 2]
-    CT.append(row)
-    row = [1, 3, 5]
-    CT.append(row)
-    row = [1, 4, 9, 14]
-    CT.append(row)
 
+def createCatalanTriangle(gridSize):
     CT = []
     row = [1]
     CT.append(row)
@@ -126,11 +119,12 @@ def catalanTriangle(gridSize):
         row = [1]
         for j in range(1, i+1):
             if i == j:
-                row.append(CT[i][i-1] + CT[i-1][i-1])
+                row.append(row[i-1] + CT[i-1][i-1])
             else:
-                row.append(CT[i][j-1] + CT[i-1][j])
+                row.append(row[j-1] + CT[i-1][j])
         CT.append(row)
     return CT
+
 
 def generatePath(catalanTriangle, gridSize, index):
     path = [0] * gridSize
@@ -147,6 +141,7 @@ def generatePath(catalanTriangle, gridSize, index):
         p += 1
     return path
 
+
 def generateNextPath(path):
     index = len(path) - 1
     while index > 0:
@@ -159,6 +154,7 @@ def generateNextPath(path):
             return True
         index -= 1
     return False
+
 
 if __name__ == "__main__":
     main()
